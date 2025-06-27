@@ -6,6 +6,7 @@ import { SortablePage } from './sortable-page'
 import { SectionSidebar } from './section-sidebar'
 import { BuilderToolbar } from './builder-toolbar'
 import { ContentEditor } from './content-editor'
+import { PreviewMode } from './preview-mode'
 import { cn } from '@/lib/utils'
 
 interface PageBuilderProps {
@@ -15,6 +16,11 @@ interface PageBuilderProps {
 export function PageBuilder({ className }: PageBuilderProps) {
   const { isEditing, setEditing, selectedSectionId } = usePageStore()
   const [sidebarOpen, setSidebarOpen] = useState(true)
+  const [previewMode, setPreviewMode] = useState(false)
+
+  if (previewMode) {
+    return <PreviewMode onClose={() => setPreviewMode(false)} />
+  }
 
   return (
     <div className={cn("flex h-screen bg-gray-50", className)}>
@@ -34,6 +40,7 @@ export function PageBuilder({ className }: PageBuilderProps) {
           onToggleSidebar={() => setSidebarOpen(!sidebarOpen)}
           isEditing={isEditing}
           onToggleEditing={() => setEditing(!isEditing)}
+          onPreview={() => setPreviewMode(true)}
         />
 
         {/* Preview area */}

@@ -22,8 +22,33 @@ export function ContentEditor() {
   }
 
   const handleSave = () => {
-    updateSection(selectedSection.id, { content: editingContent })
-    selectSection(null)
+    try {
+      // Basic validation
+      if (editingContent.title && editingContent.title.length > 200) {
+        alert('Title is too long. Please keep it under 200 characters.')
+        return
+      }
+      
+      if (editingContent.imageUrl && editingContent.imageUrl.trim() && !isValidUrl(editingContent.imageUrl)) {
+        alert('Please enter a valid image URL.')
+        return
+      }
+      
+      updateSection(selectedSection.id, { content: editingContent })
+      selectSection(null)
+    } catch (error) {
+      console.error('Save failed:', error)
+      alert('Failed to save changes. Please try again.')
+    }
+  }
+
+  const isValidUrl = (string: string) => {
+    try {
+      new URL(string)
+      return true
+    } catch (_) {
+      return false
+    }
   }
 
   const handleCancel = () => {

@@ -1,4 +1,4 @@
-import { Menu, Eye, Edit3, Download, Undo, Redo, Save } from 'lucide-react'
+import { Menu, Eye, Edit3, Download, Undo, Redo, Save, Monitor } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { usePageStore } from '@/lib/page-store'
 import { downloadHTML } from '@/lib/export'
@@ -8,33 +8,50 @@ interface BuilderToolbarProps {
   onToggleSidebar: () => void
   isEditing: boolean
   onToggleEditing: () => void
+  onPreview: () => void
 }
 
 export function BuilderToolbar({
   sidebarOpen,
   onToggleSidebar,
   isEditing,
-  onToggleEditing
+  onToggleEditing,
+  onPreview
 }: BuilderToolbarProps) {
   const { sections } = usePageStore()
 
   const handleExport = () => {
-    downloadHTML(sections, {
-      title: 'My Landing Page',
-      description: 'Created with Marketing Site Builder',
-      includeMeta: true,
-      includeStyles: true
-    })
+    try {
+      if (sections.length === 0) {
+        alert('Please add some sections to your page before exporting.')
+        return
+      }
+      
+      downloadHTML(sections, {
+        title: 'My Landing Page',
+        description: 'Created with Marketing Site Builder',
+        includeMeta: true,
+        includeStyles: true
+      })
+    } catch (error) {
+      console.error('Export failed:', error)
+      alert('Failed to export page. Please try again.')
+    }
   }
 
   const handleSave = () => {
-    // Save to localStorage for now
-    const pageData = {
-      sections,
-      savedAt: new Date().toISOString()
+    try {
+      // Save to localStorage for now
+      const pageData = {
+        sections,
+        savedAt: new Date().toISOString()
+      }
+      localStorage.setItem('marketing-site-builder-page', JSON.stringify(pageData))
+      alert('Page saved successfully!')
+    } catch (error) {
+      console.error('Save failed:', error)
+      alert('Failed to save page. Please try again.')
     }
-    localStorage.setItem('marketing-site-builder-page', JSON.stringify(pageData))
-    alert('Page saved successfully!')
   }
 
   return (
@@ -81,6 +98,11 @@ export function BuilderToolbar({
         <Button variant="ghost" size="sm" onClick={handleSave}>
           <Save className="h-4 w-4 mr-2" />
           Save
+        </Button>
+        
+        <Button variant="ghost" size="sm" onClick={onPreview}>
+          <Monitor className="h-4 w-4 mr-2" />
+          Full Preview
         </Button>
         
         <Button variant="outline" size="sm" onClick={handleExport}>

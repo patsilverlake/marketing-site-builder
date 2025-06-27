@@ -13,16 +13,24 @@ export default function Home() {
     registerAllSections()
     
     // Try to load saved page from localStorage
-    const savedData = localStorage.getItem('marketing-site-builder-page')
-    if (savedData) {
-      try {
+    try {
+      const savedData = localStorage.getItem('marketing-site-builder-page')
+      if (savedData) {
         const pageData = JSON.parse(savedData)
         if (pageData.sections && Array.isArray(pageData.sections)) {
-          reorderSections(pageData.sections)
+          // Validate that all sections have required properties
+          const validSections = pageData.sections.filter((section: any) => 
+            section.id && section.type && section.variationId && section.content !== undefined
+          )
+          if (validSections.length > 0) {
+            reorderSections(validSections)
+          }
         }
-      } catch (error) {
-        console.error('Failed to load saved page:', error)
       }
+    } catch (error) {
+      console.error('Failed to load saved page:', error)
+      // Clear corrupted data
+      localStorage.removeItem('marketing-site-builder-page')
     }
   }, [reorderSections])
 
