@@ -1,6 +1,8 @@
 import { SectionDefinition } from '@/lib/types'
 import { FeaturesGrid } from '@/components/sections/features/features-grid'
 import { FeaturesList } from '@/components/sections/features/features-list'
+import { FeaturesShowcase } from '@/components/sections/features/features-showcase'
+import { FeaturesComparison } from '@/components/sections/features/features-comparison'
 
 export const featuresSections: SectionDefinition = {
   type: 'features',
@@ -18,6 +20,18 @@ export const featuresSections: SectionDefinition = {
       name: 'Alternating List',
       description: 'Feature list with alternating image/text',
       component: FeaturesList
+    },
+    {
+      id: 'features-showcase',
+      name: 'Feature Showcase',
+      description: 'Feature showcase with large image + bullet points',
+      component: FeaturesShowcase
+    },
+    {
+      id: 'features-comparison',
+      name: 'Comparison Table',
+      description: 'Feature comparison table',
+      component: FeaturesComparison
     }
   ]
 }

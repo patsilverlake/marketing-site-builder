@@ -27,41 +27,41 @@
 ### 4. Hero Section Variations
 - [x] Hero with centered text + CTA button
 - [x] Hero with left text + right image/video
-- [ ] Hero with background image/video + overlay
-- [ ] Hero with animated elements
+- [x] Hero with background image/video + overlay
+- [x] Hero with animated elements
 - [ ] Hero with product screenshot/mockup
 
 ### 5. Features Section Variations
 - [x] 3-column feature grid with icons
 - [x] Feature list with alternating image/text
-- [ ] Feature showcase with large image + bullet points
-- [ ] Feature comparison table
+- [x] Feature showcase with large image + bullet points
+- [x] Feature comparison table
 - [ ] Feature cards with hover effects
 
 ### 6. Pricing Section Variations
 - [x] 3-tier pricing cards
 - [x] Simple pricing table
-- [ ] Pricing with toggle (monthly/yearly)
-- [ ] Single price with feature list
+- [x] Pricing with toggle (monthly/yearly)
+- [x] Single price with feature list
 - [ ] Freemium pricing model display
 
 ### 7. Testimonials Section Variations
-- [ ] Customer testimonial carousel
+- [x] Customer testimonial carousel
 - [x] Grid of testimonial cards
-- [ ] Single large testimonial with customer photo
+- [x] Single large testimonial with customer photo
 - [ ] Video testimonials
 - [ ] Logo wall with customer quotes
 
 ### 8. Call-to-Action (CTA) Section Variations
 - [x] Simple centered CTA with button
-- [ ] CTA with email signup form
+- [x] CTA with email signup form
 - [ ] CTA with app download buttons
-- [ ] CTA with contact form
+- [x] CTA with contact form
 - [ ] CTA with social proof numbers
 
 ### 9. Footer Section Variations (MVP)
 - [x] Footer with links + social icons
-- [ ] Footer with newsletter signup + links
+- [x] Footer with newsletter signup + links
 
 ### 10. Additional Essential Sections
 - [ ] About/Team section variations
