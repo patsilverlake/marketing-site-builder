@@ -3,6 +3,8 @@ import { CSS } from '@dnd-kit/utilities'
 import { SectionInstance } from '@/lib/types'
 import { usePageStore } from '@/lib/page-store'
 import { cn } from '@/lib/utils'
+import { Button } from '@/components/ui/button'
+import { GripVertical, Edit, Copy, Trash2 } from 'lucide-react'
 
 interface SortableSectionProps {
   section: SectionInstance
@@ -10,7 +12,7 @@ interface SortableSectionProps {
 }
 
 export function SortableSection({ section, children }: SortableSectionProps) {
-  const { selectedSectionId, selectSection, isEditing } = usePageStore()
+  const { selectedSectionId, selectSection, isEditing, deleteSection, duplicateSection } = usePageStore()
   const isSelected = selectedSectionId === section.id
 
   const {
@@ -27,6 +29,23 @@ export function SortableSection({ section, children }: SortableSectionProps) {
     transition,
   }
 
+  const handleEdit = (e: React.MouseEvent) => {
+    e.stopPropagation()
+    selectSection(section.id)
+  }
+
+  const handleDuplicate = (e: React.MouseEvent) => {
+    e.stopPropagation()
+    duplicateSection(section.id)
+  }
+
+  const handleDelete = (e: React.MouseEvent) => {
+    e.stopPropagation()
+    if (confirm('Are you sure you want to delete this section?')) {
+      deleteSection(section.id)
+    }
+  }
+
   return (
     <div
       ref={setNodeRef}
@@ -39,20 +58,49 @@ export function SortableSection({ section, children }: SortableSectionProps) {
       onClick={() => isEditing && selectSection(section.id)}
     >
       {isEditing && (
-        <div className="absolute -top-2 -left-2 z-10 flex gap-1">
-          <button
+        <div className="absolute -top-2 -right-2 z-10 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+          <Button
+            size="sm"
+            variant="secondary"
+            className="h-8 w-8 p-0"
+            onClick={handleEdit}
+            title="Edit section"
+          >
+            <Edit className="h-3 w-3" />
+          </Button>
+          <Button
+            size="sm"
+            variant="secondary"
+            className="h-8 w-8 p-0"
+            onClick={handleDuplicate}
+            title="Duplicate section"
+          >
+            <Copy className="h-3 w-3" />
+          </Button>
+          <Button
+            size="sm"
+            variant="destructive"
+            className="h-8 w-8 p-0"
+            onClick={handleDelete}
+            title="Delete section"
+          >
+            <Trash2 className="h-3 w-3" />
+          </Button>
+        </div>
+      )}
+      
+      {isEditing && (
+        <div className="absolute -top-2 -left-2 z-10">
+          <Button
+            size="sm"
+            variant="secondary"
+            className="h-8 w-8 p-0 cursor-move"
             {...attributes}
             {...listeners}
-            className="bg-blue-500 text-white p-1 rounded cursor-move hover:bg-blue-600"
             title="Drag to reorder"
           >
-            <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor">
-              <circle cx="3" cy="3" r="1"/>
-              <circle cx="9" cy="3" r="1"/>
-              <circle cx="3" cy="9" r="1"/>
-              <circle cx="9" cy="9" r="1"/>
-            </svg>
-          </button>
+            <GripVertical className="h-3 w-3" />
+          </Button>
         </div>
       )}
       {children}

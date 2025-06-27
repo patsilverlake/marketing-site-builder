@@ -18,7 +18,7 @@ import { SortableSection } from '@/components/sections/sortable-section'
 import { sectionRegistry } from '@/lib/section-registry'
 
 export function SortablePage() {
-  const { sections, reorderSections, isEditing } = usePageStore()
+  const { sections, reorderSections, isEditing, updateSection } = usePageStore()
   
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -37,6 +37,10 @@ export function SortablePage() {
       const newSections = arrayMove(sections, oldIndex, newIndex)
       reorderSections(newSections)
     }
+  }
+
+  const handleContentChange = (sectionId: string, content: Record<string, any>) => {
+    updateSection(sectionId, { content })
   }
 
   return (
@@ -61,17 +65,18 @@ export function SortablePage() {
                 <Component 
                   content={section.content}
                   isEditing={isEditing}
-                  onContentChange={(content) => {
-                    // Handle content updates
-                  }}
+                  onContentChange={(content) => handleContentChange(section.id, content)}
                 />
               </SortableSection>
             )
           })}
           
           {sections.length === 0 && (
-            <div className="flex items-center justify-center h-96 border-2 border-dashed border-gray-300 rounded-lg">
-              <p className="text-gray-500">Start building your page by adding sections</p>
+            <div className="flex items-center justify-center h-96 border-2 border-dashed border-gray-300 rounded-lg m-8">
+              <div className="text-center">
+                <p className="text-gray-500 text-lg mb-4">Start building your page by adding sections</p>
+                <p className="text-gray-400 text-sm">Use the sidebar to add header, hero, features, and more sections</p>
+              </div>
             </div>
           )}
         </div>
