@@ -6,6 +6,10 @@ import { pricingSections } from './pricing-sections'
 import { testimonialsSections } from './testimonials-sections'
 import { ctaSections } from './cta-sections'
 import { footerSections } from './footer-sections'
+import { aboutSections } from './about-sections'
+import { faqSections } from './faq-sections'
+import { statsSections } from './stats-sections'
+import { newsletterSections } from './newsletter-sections'
 
 // Register all sections with the registry
 export function registerAllSections() {
@@ -15,6 +19,10 @@ export function registerAllSections() {
   sectionRegistry.register(pricingSections)
   sectionRegistry.register(testimonialsSections)
   sectionRegistry.register(ctaSections)
+  sectionRegistry.register(aboutSections)
+  sectionRegistry.register(faqSections)
+  sectionRegistry.register(statsSections)
+  sectionRegistry.register(newsletterSections)
   sectionRegistry.register(footerSections)
 }
 
@@ -26,5 +34,9 @@ export {
   pricingSections,
   testimonialsSections,
   ctaSections,
+  aboutSections,
+  faqSections,
+  statsSections,
+  newsletterSections,
   footerSections
 }

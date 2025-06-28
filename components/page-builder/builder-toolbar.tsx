@@ -18,7 +18,7 @@ export function BuilderToolbar({
   onToggleEditing,
   onPreview
 }: BuilderToolbarProps) {
-  const { sections } = usePageStore()
+  const { sections, undo, redo, canUndo, canRedo } = usePageStore()
 
   const handleExport = () => {
     try {
@@ -85,11 +85,23 @@ export function BuilderToolbar({
           )}
         </Button>
         
-        <Button variant="ghost" size="sm" disabled>
+        <Button 
+          variant="ghost" 
+          size="sm" 
+          disabled={!canUndo()}
+          onClick={undo}
+          title="Undo (Ctrl+Z)"
+        >
           <Undo className="h-4 w-4" />
         </Button>
         
-        <Button variant="ghost" size="sm" disabled>
+        <Button 
+          variant="ghost" 
+          size="sm" 
+          disabled={!canRedo()}
+          onClick={redo}
+          title="Redo (Ctrl+Y)"
+        >
           <Redo className="h-4 w-4" />
         </Button>
       </div>

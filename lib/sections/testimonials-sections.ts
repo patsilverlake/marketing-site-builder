@@ -2,6 +2,7 @@ import { SectionDefinition } from '@/lib/types'
 import { TestimonialsGrid } from '@/components/sections/testimonials/testimonials-grid'
 import { TestimonialsCarousel } from '@/components/sections/testimonials/testimonials-carousel'
 import { TestimonialsSingle } from '@/components/sections/testimonials/testimonials-single'
+import { TestimonialsLogos } from '@/components/sections/testimonials/testimonials-logos'
 
 export const testimonialsSections: SectionDefinition = {
   type: 'testimonials',
@@ -25,6 +26,12 @@ export const testimonialsSections: SectionDefinition = {
       name: 'Single Large Testimonial',
       description: 'Single large testimonial with customer photo',
       component: TestimonialsSingle
+    },
+    {
+      id: 'testimonials-logos',
+      name: 'Logo Wall with Quotes',
+      description: 'Logo wall with customer quotes',
+      component: TestimonialsLogos
     }
   ]
 }

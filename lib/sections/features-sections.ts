@@ -3,6 +3,7 @@ import { FeaturesGrid } from '@/components/sections/features/features-grid'
 import { FeaturesList } from '@/components/sections/features/features-list'
 import { FeaturesShowcase } from '@/components/sections/features/features-showcase'
 import { FeaturesComparison } from '@/components/sections/features/features-comparison'
+import { FeaturesCards } from '@/components/sections/features/features-cards'
 
 export const featuresSections: SectionDefinition = {
   type: 'features',
@@ -32,6 +33,12 @@ export const featuresSections: SectionDefinition = {
       name: 'Comparison Table',
       description: 'Feature comparison table',
       component: FeaturesComparison
+    },
+    {
+      id: 'features-cards',
+      name: 'Hover Cards',
+      description: 'Feature cards with hover effects',
+      component: FeaturesCards
     }
   ]
 }

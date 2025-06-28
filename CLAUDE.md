@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## todo.md
 
-Inside of the `tasks` directory, there is a `todo.md` file that contains a list of tasks that need to be completed. please read the file and follow the instructions. as you work through the tasks, please update the file to reflect the progress. once done, please check in with me. 
+Inside of the `tasks` directory, there is a `todo.md` file that contains a list of tasks that need to be completed. please read the file and follow the instructions. as you work through the tasks, please make sure to update the file to reflect the progress. once done, please check in with me. 
 
 after each section of tasks, please create a new commit with a relevant mesage. that way we can go back if needed.
 

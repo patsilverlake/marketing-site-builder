@@ -3,6 +3,7 @@ import { PricingCards } from '@/components/sections/pricing/pricing-cards'
 import { PricingSimple } from '@/components/sections/pricing/pricing-simple'
 import { PricingToggle } from '@/components/sections/pricing/pricing-toggle'
 import { PricingSingle } from '@/components/sections/pricing/pricing-single'
+import { PricingFreemium } from '@/components/sections/pricing/pricing-freemium'
 
 export const pricingSections: SectionDefinition = {
   type: 'pricing',
@@ -32,6 +33,12 @@ export const pricingSections: SectionDefinition = {
       name: 'Single Price',
       description: 'Single price with feature list',
       component: PricingSingle
+    },
+    {
+      id: 'pricing-freemium',
+      name: 'Freemium Model',
+      description: 'Freemium pricing model display',
+      component: PricingFreemium
     }
   ]
 }

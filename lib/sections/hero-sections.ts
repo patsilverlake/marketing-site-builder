@@ -3,6 +3,7 @@ import { HeroCentered } from '@/components/sections/hero/hero-centered'
 import { HeroSplit } from '@/components/sections/hero/hero-split'
 import { HeroBackground } from '@/components/sections/hero/hero-background'
 import { HeroAnimated } from '@/components/sections/hero/hero-animated'
+import { HeroProduct } from '@/components/sections/hero/hero-product'
 
 export const heroSections: SectionDefinition = {
   type: 'hero',
@@ -32,6 +33,12 @@ export const heroSections: SectionDefinition = {
       name: 'Animated Hero',
       description: 'Hero with animated elements',
       component: HeroAnimated
+    },
+    {
+      id: 'hero-product',
+      name: 'Product Showcase',
+      description: 'Hero with product screenshot/mockup',
+      component: HeroProduct
     }
   ]
 }
