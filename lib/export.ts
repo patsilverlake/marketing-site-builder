@@ -1,11 +1,17 @@
 import { SectionInstance } from './types'
 import { sectionRegistry } from './section-registry'
 
+export interface AnalyticsIntegration {
+  provider: string
+  trackingId: string
+}
+
 export interface ExportOptions {
   title?: string
   description?: string
   includeMeta?: boolean
   includeStyles?: boolean
+  analytics?: AnalyticsIntegration[]
 }
 
 export function generateHTML(sections: SectionInstance[], options: ExportOptions = {}) {
@@ -13,7 +19,8 @@ export function generateHTML(sections: SectionInstance[], options: ExportOptions
     title = 'My Landing Page',
     description = 'Created with Marketing Site Builder',
     includeMeta = true,
-    includeStyles = true
+    includeStyles = true,
+    analytics = []
   } = options
 
   const sectionsHTML = sections
@@ -161,16 +168,112 @@ export function generateHTML(sections: SectionInstance[], options: ExportOptions
     </style>
   ` : ''
 
+  const analyticsCode = generateAnalyticsCode(analytics)
+
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
   ${metaTags}
   ${styles}
+  ${analyticsCode.head}
 </head>
 <body>
+  ${analyticsCode.bodyStart}
   ${sectionsHTML}
+  ${analyticsCode.bodyEnd}
 </body>
 </html>`
+}
+
+function generateAnalyticsCode(analytics: AnalyticsIntegration[]) {
+  let head = ''
+  let bodyStart = ''
+  let bodyEnd = ''
+
+  analytics.forEach(({ provider, trackingId }) => {
+    switch (provider) {
+      case 'google-analytics':
+        head += `
+<!-- Google Analytics 4 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=${trackingId}"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', '${trackingId}');
+</script>`
+        break
+
+      case 'google-tag-manager':
+        head += `
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','${trackingId}');</script>
+<!-- End Google Tag Manager -->`
+        
+        bodyStart += `
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=${trackingId}"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->`
+        break
+
+      case 'facebook-pixel':
+        head += `
+<!-- Facebook Pixel -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '${trackingId}');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=${trackingId}&ev=PageView&noscript=1"
+/></noscript>`
+        break
+
+      case 'hotjar':
+        head += `
+<!-- Hotjar Tracking Code -->
+<script>
+(function(h,o,t,j,a,r){
+h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+h._hjSettings={hjid:${trackingId},hjsv:6};
+a=o.getElementsByTagName('head')[0];
+r=o.createElement('script');r.async=1;
+r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+a.appendChild(r);
+})(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+</script>`
+        break
+
+      case 'mixpanel':
+        head += `
+<!-- Mixpanel -->
+<script type="text/javascript">
+(function(c,a){if(!a.__SV){var b=window;try{var d,m,j,k=b.location,f=k.hash;d=function(a,b){return(m=a.match(RegExp(b+"=([^&]*)")))?m[1]:null};f&&d(f,"state")&&(j=JSON.parse(decodeURIComponent(d(f,"state"))),"mpeditor"===j.action&&(b.sessionStorage.setItem("_mpcehash",f),history.replaceState(j.desiredHash||"",c.title,k.pathname+k.search)))}catch(n){}var l,h;window.mixpanel=a;a._i=[];a.init=function(b,d,g){function c(b,i){var a=i.split(".");2==a.length&&(b=b[a[0]],i=a[1]);b[i]=function(){b.push([i].concat(Array.prototype.slice.call(arguments,0)))}}var e=a;"undefined"!==typeof g?e=a[g]=[]:g="mixpanel";e.people=e.people||[];e.toString=function(b){var a="mixpanel";"mixpanel"!==g&&(a+="."+g);b||(a+=" (stub)");return a};e.people.toString=function(){return e.toString(1)+".people (stub)"};l="disable time_event track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config reset opt_in_tracking opt_out_tracking has_opted_in_tracking has_opted_out_tracking clear_opt_in_out_tracking people.set people.set_once people.unset people.increment people.append people.union people.track_charge people.clear_charges people.delete_user".split(" ");for(h=0;h<l.length;h++)c(e,l[h]);a._i.push([b,d,g])};a.__SV=1.2;b=c.createElement("script");b.type="text/javascript";b.async=!0;b.src="undefined"!==typeof MIXPANEL_CUSTOM_LIB_URL?MIXPANEL_CUSTOM_LIB_URL:"file:"===c.location.protocol&&"//cdn4.mxpnl.com/libs/mixpanel-2-latest.min.js".match(/^\\/\\//)?"https://cdn4.mxpnl.com/libs/mixpanel-2-latest.min.js":"//cdn4.mxpnl.com/libs/mixpanel-2-latest.min.js";d=c.getElementsByTagName("script")[0];d.parentNode.insertBefore(b,d)}})(document,window.mixpanel||[]);
+mixpanel.init("${trackingId}");
+</script>`
+        break
+
+      case 'plausible':
+        head += `
+<!-- Plausible Analytics -->
+<script defer data-domain="${trackingId}" src="https://plausible.io/js/script.js"></script>`
+        break
+    }
+  })
+
+  return { head, bodyStart, bodyEnd }
 }
 
 function generateSectionHTML(section: SectionInstance): string {

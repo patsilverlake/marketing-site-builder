@@ -1,7 +1,12 @@
-import { Menu, Eye, Edit3, Download, Undo, Redo, Save, Monitor } from 'lucide-react'
+import { Menu, Eye, Edit3, Download, Undo, Redo, Save, Monitor, Palette, Type, Move } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { usePageStore } from '@/lib/page-store'
 import { downloadHTML } from '@/lib/export'
+import { useState } from 'react'
+import { ColorPicker } from '@/components/theme/color-picker'
+import { FontPicker } from '@/components/theme/font-picker'
+import { SpacingControls } from '@/components/layout/spacing-controls'
+import { useThemeStore, ColorTheme, FontOption } from '@/lib/theme-store'
 
 interface BuilderToolbarProps {
   sidebarOpen: boolean
@@ -19,6 +24,10 @@ export function BuilderToolbar({
   onPreview
 }: BuilderToolbarProps) {
   const { sections, undo, redo, canUndo, canRedo } = usePageStore()
+  const { currentTheme, currentFont, setTheme, setFont } = useThemeStore()
+  const [showColorPicker, setShowColorPicker] = useState(false)
+  const [showFontPicker, setShowFontPicker] = useState(false)
+  const [showSpacingControls, setShowSpacingControls] = useState(false)
 
   const handleExport = () => {
     try {
@@ -104,6 +113,81 @@ export function BuilderToolbar({
         >
           <Redo className="h-4 w-4" />
         </Button>
+        
+        <div className="h-6 w-px bg-gray-300" />
+        
+        <div className="relative">
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => setShowColorPicker(!showColorPicker)}
+            title="Theme Colors"
+          >
+            <Palette className="h-4 w-4" />
+          </Button>
+          
+          {showColorPicker && (
+            <div className="absolute top-full left-0 mt-2 w-80 bg-white border border-gray-200 rounded-lg shadow-lg p-4 z-50">
+              <ColorPicker
+                currentTheme={currentTheme.id}
+                onThemeSelect={(theme: ColorTheme) => {
+                  setTheme(theme)
+                  setShowColorPicker(false)
+                }}
+                onClose={() => setShowColorPicker(false)}
+              />
+            </div>
+          )}
+        </div>
+        
+        <div className="relative">
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => setShowFontPicker(!showFontPicker)}
+            title="Typography"
+          >
+            <Type className="h-4 w-4" />
+          </Button>
+          
+          {showFontPicker && (
+            <div className="absolute top-full left-0 mt-2 w-80 bg-white border border-gray-200 rounded-lg shadow-lg p-4 z-50">
+              <FontPicker
+                currentFont={currentFont.id}
+                onFontSelect={(font: FontOption) => {
+                  setFont(font)
+                  setShowFontPicker(false)
+                }}
+                onClose={() => setShowFontPicker(false)}
+              />
+            </div>
+          )}
+        </div>
+        
+        <div className="relative">
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => setShowSpacingControls(!showSpacingControls)}
+            title="Spacing & Layout"
+          >
+            <Move className="h-4 w-4" />
+          </Button>
+          
+          {showSpacingControls && (
+            <div className="absolute top-full left-0 mt-2 w-80 bg-white border border-gray-200 rounded-lg shadow-lg p-4 z-50">
+              <SpacingControls
+                onSpacingChange={(spacing) => {
+                  // For now, just log the spacing changes
+                  // In a full implementation, this would update the selected section
+                  console.log('Spacing changed:', spacing)
+                  setShowSpacingControls(false)
+                }}
+                onClose={() => setShowSpacingControls(false)}
+              />
+            </div>
+          )}
+        </div>
       </div>
 
       <div className="flex items-center gap-2">
