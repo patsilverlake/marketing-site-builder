@@ -10,8 +10,8 @@ interface FaqGridProps {
   isEditing?: boolean
 }
 
-export function FaqGrid({ data, onUpdate, isEditing }: FaqGridProps) {
-  const { content } = data
+export function FaqGrid({ data = { content: {} }, onUpdate, isEditing }: FaqGridProps) {
+  const { content = {} } = data || {}
 
   const defaultContent = {
     title: 'How can we help you?',
@@ -99,12 +99,14 @@ export function FaqGrid({ data, onUpdate, isEditing }: FaqGridProps) {
   const currentContent = { ...defaultContent, ...content }
 
   const handleContentChange = (field: string, value: any) => {
-    onUpdate({
-      content: {
-        ...currentContent,
-        [field]: value
+    if (onUpdate) {
+      onUpdate({
+        content: {
+          ...currentContent,
+          [field]: value
       }
-    })
+        })
+    }
   }
 
   const iconMap = {

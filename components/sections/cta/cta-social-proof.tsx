@@ -11,8 +11,8 @@ interface CtaSocialProofProps {
   isEditing?: boolean
 }
 
-export function CtaSocialProof({ data, onUpdate, isEditing }: CtaSocialProofProps) {
-  const { content } = data
+export function CtaSocialProof({ data = { content: {} }, onUpdate, isEditing }: CtaSocialProofProps) {
+  const { content = {} } = data || {}
 
   const defaultContent = {
     title: 'Join 50,000+ Companies Already Using Our Platform',
@@ -42,12 +42,14 @@ export function CtaSocialProof({ data, onUpdate, isEditing }: CtaSocialProofProp
   const currentContent = { ...defaultContent, ...content }
 
   const handleContentChange = (field: string, value: any) => {
-    onUpdate({
-      content: {
-        ...currentContent,
-        [field]: value
+    if (onUpdate) {
+      onUpdate({
+        content: {
+          ...currentContent,
+          [field]: value
       }
-    })
+        })
+    }
   }
 
   const iconMap = {

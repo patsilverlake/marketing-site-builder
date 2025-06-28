@@ -11,8 +11,8 @@ interface FaqAccordionProps {
   isEditing?: boolean
 }
 
-export function FaqAccordion({ data, onUpdate, isEditing }: FaqAccordionProps) {
-  const { content } = data
+export function FaqAccordion({ data = { content: {} }, onUpdate, isEditing }: FaqAccordionProps) {
+  const { content = {} } = data || {}
   const [openItems, setOpenItems] = useState<number[]>([0])
 
   const defaultContent = {
@@ -54,12 +54,14 @@ export function FaqAccordion({ data, onUpdate, isEditing }: FaqAccordionProps) {
   const currentContent = { ...defaultContent, ...content }
 
   const handleContentChange = (field: string, value: any) => {
-    onUpdate({
-      content: {
-        ...currentContent,
-        [field]: value
+    if (onUpdate) {
+      onUpdate({
+        content: {
+          ...currentContent,
+          [field]: value
       }
-    })
+        })
+    }
   }
 
   const toggleItem = (index: number) => {

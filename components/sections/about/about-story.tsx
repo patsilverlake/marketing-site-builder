@@ -10,8 +10,8 @@ interface AboutStoryProps {
   isEditing?: boolean
 }
 
-export function AboutStory({ data, onUpdate, isEditing }: AboutStoryProps) {
-  const { content } = data
+export function AboutStory({ data = { content: {} }, onUpdate, isEditing }: AboutStoryProps) {
+  const { content = {} } = data || {}
 
   const defaultContent = {
     title: 'Our Story',
@@ -52,12 +52,14 @@ export function AboutStory({ data, onUpdate, isEditing }: AboutStoryProps) {
   const currentContent = { ...defaultContent, ...content }
 
   const handleContentChange = (field: string, value: any) => {
-    onUpdate({
-      content: {
-        ...currentContent,
-        [field]: value
+    if (onUpdate) {
+      onUpdate({
+        content: {
+          ...currentContent,
+          [field]: value
       }
-    })
+        })
+    }
   }
 
   const iconMap = {

@@ -11,8 +11,8 @@ interface StatsCountersProps {
   isEditing?: boolean
 }
 
-export function StatsCounters({ data, onUpdate, isEditing }: StatsCountersProps) {
-  const { content } = data
+export function StatsCounters({ data = { content: {} }, onUpdate, isEditing }: StatsCountersProps) {
+  const { content = {} } = data || {}
   const [isVisible, setIsVisible] = useState(false)
 
   const defaultContent = {
@@ -100,12 +100,14 @@ export function StatsCounters({ data, onUpdate, isEditing }: StatsCountersProps)
   }, [])
 
   const handleContentChange = (field: string, value: any) => {
-    onUpdate({
-      content: {
-        ...currentContent,
-        [field]: value
-      }
-    })
+    if (onUpdate) {
+      onUpdate({
+        content: {
+          ...currentContent,
+          [field]: value
+        }
+      })
+    }
   }
 
   const iconMap = {

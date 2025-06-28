@@ -11,8 +11,8 @@ interface PricingFreemiumProps {
   isEditing?: boolean
 }
 
-export function PricingFreemium({ data, onUpdate, isEditing }: PricingFreemiumProps) {
-  const { content } = data
+export function PricingFreemium({ data = { content: {} }, onUpdate, isEditing }: PricingFreemiumProps) {
+  const { content = {} } = data || {}
 
   const defaultContent = {
     title: 'Choose Your Plan',
@@ -78,12 +78,14 @@ export function PricingFreemium({ data, onUpdate, isEditing }: PricingFreemiumPr
   const currentContent = { ...defaultContent, ...content }
 
   const handleContentChange = (field: string, value: any) => {
-    onUpdate({
-      content: {
-        ...currentContent,
-        [field]: value
+    if (onUpdate) {
+      onUpdate({
+        content: {
+          ...currentContent,
+          [field]: value
       }
-    })
+        })
+    }
   }
 
   return (

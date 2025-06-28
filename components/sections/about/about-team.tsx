@@ -10,8 +10,8 @@ interface AboutTeamProps {
   isEditing?: boolean
 }
 
-export function AboutTeam({ data, onUpdate, isEditing }: AboutTeamProps) {
-  const { content } = data
+export function AboutTeam({ data = { content: {} }, onUpdate, isEditing }: AboutTeamProps) {
+  const { content = {} } = data || {}
 
   const defaultContent = {
     title: 'Meet Our Team',
@@ -67,12 +67,14 @@ export function AboutTeam({ data, onUpdate, isEditing }: AboutTeamProps) {
   const currentContent = { ...defaultContent, ...content }
 
   const handleContentChange = (field: string, value: any) => {
-    onUpdate({
-      content: {
-        ...currentContent,
-        [field]: value
+    if (onUpdate) {
+      onUpdate({
+        content: {
+          ...currentContent,
+          [field]: value
       }
-    })
+        })
+    }
   }
 
   return (

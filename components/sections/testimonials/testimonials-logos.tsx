@@ -10,8 +10,8 @@ interface TestimonialsLogosProps {
   isEditing?: boolean
 }
 
-export function TestimonialsLogos({ data, onUpdate, isEditing }: TestimonialsLogosProps) {
-  const { content } = data
+export function TestimonialsLogos({ data = { content: {} }, onUpdate, isEditing }: TestimonialsLogosProps) {
+  const { content = {} } = data || {}
 
   const defaultContent = {
     title: 'Trusted by Industry Leaders',
@@ -65,12 +65,14 @@ export function TestimonialsLogos({ data, onUpdate, isEditing }: TestimonialsLog
   const currentContent = { ...defaultContent, ...content }
 
   const handleContentChange = (field: string, value: any) => {
-    onUpdate({
-      content: {
-        ...currentContent,
-        [field]: value
+    if (onUpdate) {
+      onUpdate({
+        content: {
+          ...currentContent,
+          [field]: value
       }
-    })
+        })
+    }
   }
 
   return (

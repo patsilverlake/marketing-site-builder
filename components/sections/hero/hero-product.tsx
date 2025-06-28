@@ -10,8 +10,8 @@ interface HeroProductProps {
   isEditing?: boolean
 }
 
-export function HeroProduct({ data, onUpdate, isEditing }: HeroProductProps) {
-  const { content } = data
+export function HeroProduct({ data = { content: {} }, onUpdate, isEditing }: HeroProductProps) {
+  const { content = {} } = data || {}
 
   const defaultContent = {
     headline: 'Transform Your Business with Our Product',
@@ -25,12 +25,14 @@ export function HeroProduct({ data, onUpdate, isEditing }: HeroProductProps) {
   const currentContent = { ...defaultContent, ...content }
 
   const handleContentChange = (field: string, value: string) => {
-    onUpdate({
-      content: {
-        ...currentContent,
-        [field]: value
-      }
-    })
+    if (onUpdate) {
+      onUpdate({
+        content: {
+          ...currentContent,
+          [field]: value
+        }
+      })
+    }
   }
 
   return (

@@ -11,8 +11,8 @@ interface CtaDownloadProps {
   isEditing?: boolean
 }
 
-export function CtaDownload({ data, onUpdate, isEditing }: CtaDownloadProps) {
-  const { content } = data
+export function CtaDownload({ data = { content: {} }, onUpdate, isEditing }: CtaDownloadProps) {
+  const { content = {} } = data || {}
 
   const defaultContent = {
     title: 'Get Our App Today',
@@ -32,12 +32,14 @@ export function CtaDownload({ data, onUpdate, isEditing }: CtaDownloadProps) {
   const currentContent = { ...defaultContent, ...content }
 
   const handleContentChange = (field: string, value: string) => {
-    onUpdate({
-      content: {
-        ...currentContent,
-        [field]: value
-      }
-    })
+    if (onUpdate) {
+      onUpdate({
+        content: {
+          ...currentContent,
+          [field]: value
+        }
+      })
+    }
   }
 
   return (

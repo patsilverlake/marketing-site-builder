@@ -12,8 +12,8 @@ interface NewsletterSimpleProps {
   isEditing?: boolean
 }
 
-export function NewsletterSimple({ data, onUpdate, isEditing }: NewsletterSimpleProps) {
-  const { content } = data
+export function NewsletterSimple({ data = { content: {} }, onUpdate, isEditing }: NewsletterSimpleProps) {
+  const { content = {} } = data || {}
   const [email, setEmail] = useState('')
   const [isSubscribed, setIsSubscribed] = useState(false)
 
@@ -38,12 +38,14 @@ export function NewsletterSimple({ data, onUpdate, isEditing }: NewsletterSimple
   const currentContent = { ...defaultContent, ...content }
 
   const handleContentChange = (field: string, value: any) => {
-    onUpdate({
-      content: {
-        ...currentContent,
-        [field]: value
+    if (onUpdate) {
+      onUpdate({
+        content: {
+          ...currentContent,
+          [field]: value
       }
-    })
+        })
+    }
   }
 
   const handleSubmit = (e: React.FormEvent) => {

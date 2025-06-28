@@ -10,8 +10,8 @@ interface FeaturesCardsProps {
   isEditing?: boolean
 }
 
-export function FeaturesCards({ data, onUpdate, isEditing }: FeaturesCardsProps) {
-  const { content } = data
+export function FeaturesCards({ data = { content: {} }, onUpdate, isEditing }: FeaturesCardsProps) {
+  const { content = {} } = data || {}
 
   const defaultContent = {
     title: 'Powerful Features',
@@ -53,12 +53,14 @@ export function FeaturesCards({ data, onUpdate, isEditing }: FeaturesCardsProps)
   const currentContent = { ...defaultContent, ...content }
 
   const handleContentChange = (field: string, value: any) => {
-    onUpdate({
-      content: {
-        ...currentContent,
-        [field]: value
-      }
-    })
+    if (onUpdate) {
+      onUpdate({
+        content: {
+          ...currentContent,
+          [field]: value
+        }
+      })
+    }
   }
 
   const handleFeatureChange = (index: number, field: string, value: string) => {
