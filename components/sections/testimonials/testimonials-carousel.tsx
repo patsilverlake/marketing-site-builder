@@ -116,25 +116,25 @@ export function TestimonialsCarousel({ content, isEditing }: SectionProps) {
               </div>
             </div>
 
-            {/* Navigation */}
+            {/* Navigation - Responsive positioning */}
             {testimonials.length > 1 && (
               <>
                 <Button
                   variant="outline"
                   size="sm"
                   onClick={prevTestimonial}
-                  className="absolute left-0 top-1/2 transform -translate-y-1/2 -translate-x-4 rounded-full w-12 h-12 p-0"
+                  className="absolute left-2 sm:left-0 top-1/2 transform -translate-y-1/2 sm:-translate-x-4 rounded-full w-10 h-10 sm:w-12 sm:h-12 p-0 touch-manipulation"
                 >
-                  <ChevronLeft className="h-4 w-4" />
+                  <ChevronLeft className="h-3 w-3 sm:h-4 sm:w-4" />
                 </Button>
                 
                 <Button
                   variant="outline"
                   size="sm"
                   onClick={nextTestimonial}
-                  className="absolute right-0 top-1/2 transform -translate-y-1/2 translate-x-4 rounded-full w-12 h-12 p-0"
+                  className="absolute right-2 sm:right-0 top-1/2 transform -translate-y-1/2 sm:translate-x-4 rounded-full w-10 h-10 sm:w-12 sm:h-12 p-0 touch-manipulation"
                 >
-                  <ChevronRight className="h-4 w-4" />
+                  <ChevronRight className="h-3 w-3 sm:h-4 sm:w-4" />
                 </Button>
               </>
             )}

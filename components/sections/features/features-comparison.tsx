@@ -62,21 +62,22 @@ export function FeaturesComparison({ content, isEditing }: SectionProps) {
           </p>
         </div>
 
-        <div className="bg-white rounded-lg shadow-lg overflow-hidden">
+        {/* Desktop Table View */}
+        <div className="bg-white rounded-lg shadow-lg overflow-hidden hidden md:block">
           <div className="overflow-x-auto">
             <table className="min-w-full">
               <thead className="bg-gray-50">
                 <tr>
-                  <th className="px-6 py-4 text-left text-sm font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-4 lg:px-6 py-3 lg:py-4 text-left text-xs lg:text-sm font-medium text-gray-500 uppercase tracking-wider">
                     Features
                   </th>
-                  <th className="px-6 py-4 text-center text-sm font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-4 lg:px-6 py-3 lg:py-4 text-center text-xs lg:text-sm font-medium text-gray-500 uppercase tracking-wider">
                     {basicTitle}
                   </th>
-                  <th className="px-6 py-4 text-center text-sm font-medium text-gray-500 uppercase tracking-wider bg-blue-50">
+                  <th className="px-4 lg:px-6 py-3 lg:py-4 text-center text-xs lg:text-sm font-medium text-gray-500 uppercase tracking-wider bg-blue-50">
                     {proTitle}
                   </th>
-                  <th className="px-6 py-4 text-center text-sm font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-4 lg:px-6 py-3 lg:py-4 text-center text-xs lg:text-sm font-medium text-gray-500 uppercase tracking-wider">
                     {enterpriseTitle}
                   </th>
                 </tr>
@@ -84,22 +85,54 @@ export function FeaturesComparison({ content, isEditing }: SectionProps) {
               <tbody className="bg-white divide-y divide-gray-200">
                 {features.map((feature, index) => (
                   <tr key={index} className={index % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                    <td className="px-4 lg:px-6 py-3 lg:py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                       {feature.name}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-center">
+                    <td className="px-4 lg:px-6 py-3 lg:py-4 whitespace-nowrap text-sm text-center">
                       {renderFeatureValue(feature.basic)}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-center bg-blue-50">
+                    <td className="px-4 lg:px-6 py-3 lg:py-4 whitespace-nowrap text-sm text-center bg-blue-50">
                       {renderFeatureValue(feature.pro)}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-center">
+                    <td className="px-4 lg:px-6 py-3 lg:py-4 whitespace-nowrap text-sm text-center">
                       {renderFeatureValue(feature.enterprise)}
                     </td>
                   </tr>
                 ))}
               </tbody>
             </table>
+          </div>
+        </div>
+
+        {/* Mobile Card View */}
+        <div className="md:hidden space-y-6">
+          <div className="grid gap-4">
+            {/* Plan Headers */}
+            <div className="bg-white rounded-lg shadow-lg p-4">
+              <div className="grid grid-cols-3 gap-4 text-center">
+                <div className="font-medium text-gray-900">{basicTitle}</div>
+                <div className="font-medium text-blue-600 bg-blue-50 rounded-lg py-2">{proTitle}</div>
+                <div className="font-medium text-gray-900">{enterpriseTitle}</div>
+              </div>
+            </div>
+
+            {/* Feature Cards */}
+            {features.map((feature, index) => (
+              <div key={index} className="bg-white rounded-lg shadow-lg p-4">
+                <div className="font-medium text-gray-900 mb-3 text-center">{feature.name}</div>
+                <div className="grid grid-cols-3 gap-4 text-center">
+                  <div className="flex justify-center items-center">
+                    {renderFeatureValue(feature.basic)}
+                  </div>
+                  <div className="flex justify-center items-center bg-blue-50 rounded-lg py-2">
+                    {renderFeatureValue(feature.pro)}
+                  </div>
+                  <div className="flex justify-center items-center">
+                    {renderFeatureValue(feature.enterprise)}
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </div>

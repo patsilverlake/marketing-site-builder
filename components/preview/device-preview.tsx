@@ -108,11 +108,21 @@ export function DevicePreview({ children, onDeviceChange }: DevicePreviewProps) 
   const [selectedDevice, setSelectedDevice] = useState<DevicePreset>(devicePresets[1]) // Desktop default
   const [isRotated, setIsRotated] = useState(false)
   const [showRuler, setShowRuler] = useState(false)
+  const [isMobilePreviewMode, setIsMobilePreviewMode] = useState(false)
 
   const handleDeviceSelect = (device: DevicePreset) => {
     setSelectedDevice(device)
     setIsRotated(false) // Reset rotation when changing devices
+    setIsMobilePreviewMode(device.category === 'mobile')
     onDeviceChange?.(device)
+  }
+
+  const enableMobilePreviewMode = () => {
+    const mobileDevice = devicePresets.find(d => d.category === 'mobile') || devicePresets[6] // iPhone 14 Pro
+    setSelectedDevice(mobileDevice)
+    setIsMobilePreviewMode(true)
+    setIsRotated(false)
+    onDeviceChange?.(mobileDevice)
   }
 
   const toggleRotation = () => {
@@ -155,6 +165,15 @@ export function DevicePreview({ children, onDeviceChange }: DevicePreviewProps) 
         <div className="flex items-center justify-between mb-4">
           <h3 className="text-lg font-semibold text-gray-900">Device Preview</h3>
           <div className="flex items-center gap-2">
+            <Button
+              variant={isMobilePreviewMode ? "default" : "outline"}
+              size="sm"
+              onClick={enableMobilePreviewMode}
+              title="Quick mobile preview"
+            >
+              <Smartphone className="w-4 h-4 mr-1" />
+              Mobile
+            </Button>
             <Button
               variant="outline"
               size="sm"

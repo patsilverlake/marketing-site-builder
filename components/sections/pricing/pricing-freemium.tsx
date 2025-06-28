@@ -120,13 +120,13 @@ export function PricingFreemium({ data = { content: {} }, onUpdate, isEditing }:
         </div>
 
         {/* Pricing Cards */}
-        <div className="grid lg:grid-cols-3 gap-8 lg:gap-4">
+        <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-4">
           {currentContent.plans.map((plan: any, index: number) => (
             <div
               key={index}
               className={`relative bg-white rounded-2xl shadow-lg border-2 transition-all duration-300 hover:shadow-xl ${
                 plan.popular 
-                  ? 'border-blue-500 transform lg:scale-105' 
+                  ? 'border-blue-500 lg:transform lg:scale-105' 
                   : 'border-gray-200 hover:border-blue-300'
               }`}
             >

@@ -109,15 +109,15 @@ export function AboutTeam({ data = { content: {} }, onUpdate, isEditing }: About
         </div>
 
         {/* Team Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
           {currentContent.teamMembers.map((member: any, index: number) => (
             <div
               key={index}
               className="group text-center"
             >
               {/* Profile Image */}
-              <div className="relative mb-6">
-                <div className="w-48 h-48 mx-auto rounded-2xl overflow-hidden bg-gray-100 group-hover:shadow-xl transition-shadow duration-300">
+              <div className="relative mb-4 lg:mb-6">
+                <div className="w-32 h-32 sm:w-40 sm:h-40 lg:w-48 lg:h-48 mx-auto rounded-2xl overflow-hidden bg-gray-100 group-hover:shadow-xl transition-shadow duration-300">
                   <img
                     src={member.avatar}
                     alt={member.name}
@@ -125,26 +125,26 @@ export function AboutTeam({ data = { content: {} }, onUpdate, isEditing }: About
                   />
                 </div>
                 
-                {/* Social Links Overlay */}
-                <div className="absolute inset-0 bg-black/60 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                  <div className="flex gap-4">
+                {/* Social Links Overlay - Always visible on mobile, hover on desktop */}
+                <div className="absolute inset-0 bg-black/60 rounded-2xl sm:opacity-0 sm:group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                  <div className="flex gap-3 sm:gap-4">
                     <a
                       href={member.social.linkedin}
-                      className="w-10 h-10 bg-white rounded-full flex items-center justify-center hover:scale-110 transition-transform duration-200"
+                      className="w-8 h-8 sm:w-10 sm:h-10 bg-white rounded-full flex items-center justify-center hover:scale-110 transition-transform duration-200 touch-manipulation"
                     >
-                      <Linkedin className="w-5 h-5 text-blue-600" />
+                      <Linkedin className="w-4 h-4 sm:w-5 sm:h-5 text-blue-600" />
                     </a>
                     <a
                       href={member.social.twitter}
-                      className="w-10 h-10 bg-white rounded-full flex items-center justify-center hover:scale-110 transition-transform duration-200"
+                      className="w-8 h-8 sm:w-10 sm:h-10 bg-white rounded-full flex items-center justify-center hover:scale-110 transition-transform duration-200 touch-manipulation"
                     >
-                      <Twitter className="w-5 h-5 text-blue-400" />
+                      <Twitter className="w-4 h-4 sm:w-5 sm:h-5 text-blue-400" />
                     </a>
                     <a
                       href={member.social.github}
-                      className="w-10 h-10 bg-white rounded-full flex items-center justify-center hover:scale-110 transition-transform duration-200"
+                      className="w-8 h-8 sm:w-10 sm:h-10 bg-white rounded-full flex items-center justify-center hover:scale-110 transition-transform duration-200 touch-manipulation"
                     >
-                      <Github className="w-5 h-5 text-gray-800" />
+                      <Github className="w-4 h-4 sm:w-5 sm:h-5 text-gray-800" />
                     </a>
                   </div>
                 </div>
