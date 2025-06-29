@@ -1,4 +1,4 @@
-import { Menu, Eye, Edit3, Download, Undo, Redo, Save, Monitor, Palette, Type, Move } from 'lucide-react'
+import { Menu, Eye, Edit3, Download, Undo, Redo, Save, Monitor, Palette, Type, Move, Trash2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { usePageStore } from '@/lib/page-store'
 import { downloadHTML } from '@/lib/export'
@@ -23,12 +23,67 @@ export function BuilderToolbar({
   onToggleEditing,
   onPreview
 }: BuilderToolbarProps) {
-  const { sections, undo, redo, canUndo, canRedo } = usePageStore()
+  const { sections, undo, redo, canUndo, canRedo, clearAllSections } = usePageStore()
   const { currentTheme, currentFont, setTheme, setFont } = useThemeStore()
   const [showColorPicker, setShowColorPicker] = useState(false)
   const [showFontPicker, setShowFontPicker] = useState(false)
   const [showSpacingControls, setShowSpacingControls] = useState(false)
   const [isSaving, setIsSaving] = useState(false)
+
+  const handleSave = useCallback(async () => {
+    try {
+      setIsSaving(true)
+      // Simulate save delay for animation
+      await new Promise(resolve => setTimeout(resolve, 800))
+      
+      // Save to localStorage for now
+      const pageData = {
+        sections,
+        savedAt: new Date().toISOString()
+      }
+      localStorage.setItem('marketing-site-builder-page', JSON.stringify(pageData))
+      
+      // Show success feedback with animation
+      setIsSaving(false)
+    } catch (error) {
+      console.error('Save failed:', error)
+      setIsSaving(false)
+      alert('Failed to save page. Please try again.')
+    }
+  }, [sections])
+
+  const handleClearAll = useCallback(() => {
+    if (sections.length === 0) {
+      alert('Your page is already empty.')
+      return
+    }
+    
+    const confirmed = confirm('Are you sure you want to clear all sections? This action cannot be undone.')
+    if (confirmed) {
+      clearAllSections()
+      // Clear localStorage as well
+      localStorage.removeItem('marketing-site-builder-page')
+    }
+  }, [sections.length, clearAllSections])
+
+  const handleExport = () => {
+    try {
+      if (sections.length === 0) {
+        alert('Please add some sections to your page before exporting.')
+        return
+      }
+      
+      downloadHTML(sections, {
+        title: 'My Landing Page',
+        description: 'Created with Marketing Site Builder',
+        includeMeta: true,
+        includeStyles: true
+      })
+    } catch (error) {
+      console.error('Export failed:', error)
+      alert('Failed to export page. Please try again.')
+    }
+  }
 
   // Keyboard shortcuts
   useEffect(() => {
@@ -59,54 +114,17 @@ export function BuilderToolbar({
             e.preventDefault()
             onPreview()
             break
+          case 'Delete':
+            e.preventDefault()
+            handleClearAll()
+            break
         }
       }
     }
 
     window.addEventListener('keydown', handleKeyDown)
     return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [undo, redo, onToggleEditing, onPreview, handleSave])
-
-  const handleExport = () => {
-    try {
-      if (sections.length === 0) {
-        alert('Please add some sections to your page before exporting.')
-        return
-      }
-      
-      downloadHTML(sections, {
-        title: 'My Landing Page',
-        description: 'Created with Marketing Site Builder',
-        includeMeta: true,
-        includeStyles: true
-      })
-    } catch (error) {
-      console.error('Export failed:', error)
-      alert('Failed to export page. Please try again.')
-    }
-  }
-
-  const handleSave = useCallback(async () => {
-    try {
-      setIsSaving(true)
-      // Simulate save delay for animation
-      await new Promise(resolve => setTimeout(resolve, 800))
-      
-      // Save to localStorage for now
-      const pageData = {
-        sections,
-        savedAt: new Date().toISOString()
-      }
-      localStorage.setItem('marketing-site-builder-page', JSON.stringify(pageData))
-      
-      // Show success feedback with animation
-      setIsSaving(false)
-    } catch (error) {
-      console.error('Save failed:', error)
-      setIsSaving(false)
-      alert('Failed to save page. Please try again.')
-    }
-  }, [sections])
+  }, [undo, redo, onToggleEditing, onPreview, handleSave, handleClearAll])
 
   return (
     <motion.div 
@@ -127,6 +145,21 @@ export function BuilderToolbar({
             className="hover:bg-gray-100 transition-colors duration-200"
           >
             <Menu className="h-4 w-4" />
+          </Button>
+        </motion.div>
+        
+        <motion.div
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+        >
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={handleClearAll}
+            title="Clear All Sections (Delete)"
+            className="hover:bg-red-50 hover:text-red-600 transition-colors duration-200"
+          >
+            <Trash2 className="h-4 w-4" />
           </Button>
         </motion.div>
         

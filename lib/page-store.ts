@@ -26,6 +26,7 @@ interface PageStore {
   selectSection: (id: string | null) => void
   setEditing: (editing: boolean) => void
   duplicateSection: (id: string) => void
+  clearAllSections: () => void
   
   // History actions
   undo: () => void
@@ -124,6 +125,15 @@ export const usePageStore = create<PageStore>((set, get) => ({
       }
       set({ sections: [...sections, duplicate] })
     }
+  },
+
+  clearAllSections: () => {
+    const { saveToHistory } = get()
+    saveToHistory()
+    set({ 
+      sections: [], 
+      selectedSectionId: null 
+    })
   },
 
   // History methods
