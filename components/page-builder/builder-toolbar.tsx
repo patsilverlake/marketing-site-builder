@@ -2,7 +2,7 @@ import { Menu, Eye, Edit3, Download, Undo, Redo, Save, Monitor, Palette, Type, M
 import { Button } from '@/components/ui/button'
 import { usePageStore } from '@/lib/page-store'
 import { downloadHTML } from '@/lib/export'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { ColorPicker } from '@/components/theme/color-picker'
 import { FontPicker } from '@/components/theme/font-picker'
 import { SpacingControls } from '@/components/layout/spacing-controls'
@@ -18,7 +18,6 @@ interface BuilderToolbarProps {
 }
 
 export function BuilderToolbar({
-  sidebarOpen,
   onToggleSidebar,
   isEditing,
   onToggleEditing,
@@ -66,7 +65,7 @@ export function BuilderToolbar({
 
     window.addEventListener('keydown', handleKeyDown)
     return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [undo, redo, onToggleEditing, onPreview])
+  }, [undo, redo, onToggleEditing, onPreview, handleSave])
 
   const handleExport = () => {
     try {
@@ -87,7 +86,7 @@ export function BuilderToolbar({
     }
   }
 
-  const handleSave = async () => {
+  const handleSave = useCallback(async () => {
     try {
       setIsSaving(true)
       // Simulate save delay for animation
@@ -107,7 +106,7 @@ export function BuilderToolbar({
       setIsSaving(false)
       alert('Failed to save page. Please try again.')
     }
-  }
+  }, [sections])
 
   return (
     <motion.div 

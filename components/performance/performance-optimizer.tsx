@@ -1,8 +1,8 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { Button } from '@/components/ui/button'
-import { Zap, CheckCircle, AlertTriangle, Info, Optimize, TrendingUp } from 'lucide-react'
+import { Zap, CheckCircle, Info, Optimize, TrendingUp } from 'lucide-react'
 import { usePageStore } from '@/lib/page-store'
 
 interface PerformanceIssue {
@@ -38,9 +38,9 @@ export function PerformanceOptimizer() {
     if (sections.length > 0) {
       analyzePerformance()
     }
-  }, [sections])
+  }, [sections, analyzePerformance])
 
-  const analyzePerformance = () => {
+  const analyzePerformance = useCallback(() => {
     setIsAnalyzing(true)
     
     setTimeout(() => {
@@ -49,7 +49,7 @@ export function PerformanceOptimizer() {
       setIssues(analysis.issues)
       setIsAnalyzing(false)
     }, 1000) // Simulate analysis time
-  }
+  }, [sections])
 
   const performAnalysis = () => {
     const metrics: PerformanceMetrics = {

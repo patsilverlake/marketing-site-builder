@@ -77,7 +77,7 @@ export function ImageUpload({ onImageSelect, onClose, currentImage }: ImageUploa
     try {
       new URL(string)
       return true
-    } catch (_) {
+    } catch {
       return false
     }
   }

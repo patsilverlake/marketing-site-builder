@@ -198,8 +198,13 @@ export function SectionLoading({ className }: { className?: string }) {
   )
 }
 
-// Button Loading Component
-export function ButtonLoading({ children, isLoading = false, ...props }: any) {
+// Button Loading Component  
+interface ButtonLoadingProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  children: React.ReactNode
+  isLoading?: boolean
+}
+
+export function ButtonLoading({ children, isLoading = false, ...props }: ButtonLoadingProps) {
   return (
     <motion.button
       {...props}

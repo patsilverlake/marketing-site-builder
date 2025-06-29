@@ -7,7 +7,7 @@ import { ImageUpload } from '@/components/image-manager/image-upload'
 
 export function ContentEditor() {
   const { selectedSectionId, selectSection, sections, updateSection } = usePageStore()
-  const [editingContent, setEditingContent] = useState<Record<string, any>>({})
+  const [editingContent, setEditingContent] = useState<Record<string, unknown>>({})
   const [showImageUpload, setShowImageUpload] = useState(false)
   const [currentImageField, setCurrentImageField] = useState<string | null>(null)
 
@@ -49,7 +49,7 @@ export function ContentEditor() {
     try {
       new URL(string)
       return true
-    } catch (_) {
+    } catch {
       return false
     }
   }
@@ -59,7 +59,7 @@ export function ContentEditor() {
     selectSection(null)
   }
 
-  const updateField = (field: string, value: any) => {
+  const updateField = (field: string, value: unknown) => {
     setEditingContent(prev => ({
       ...prev,
       [field]: value

@@ -79,7 +79,6 @@ interface AnalyticsIntegrationProps {
 
 export function AnalyticsIntegration({ 
   onAnalyticsAdd, 
-  onClose, 
   currentIntegrations = [] 
 }: AnalyticsIntegrationProps) {
   const [selectedProvider, setSelectedProvider] = useState<string | null>(null)

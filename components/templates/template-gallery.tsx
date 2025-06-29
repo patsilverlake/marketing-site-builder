@@ -29,7 +29,7 @@ interface Template {
   rating: number
   downloads: number
   isPremium: boolean
-  sections: any[]
+  sections: Array<{ type: string; variationId: string }>
   colors: string[]
 }
 
@@ -173,7 +173,7 @@ interface TemplateGalleryProps {
 export function TemplateGallery({ isOpen, onClose }: TemplateGalleryProps) {
   const [selectedCategory, setSelectedCategory] = useState('all')
   const [searchQuery, setSearchQuery] = useState('')
-  const [selectedTemplate, setSelectedTemplate] = useState<Template | null>(null)
+  // const [selectedTemplate, setSelectedTemplate] = useState<Template | null>(null) // TODO: Implement preview functionality
   const { setSections } = usePageStore()
 
   const filteredTemplates = templates.filter(template => {
@@ -194,7 +194,8 @@ export function TemplateGallery({ isOpen, onClose }: TemplateGalleryProps) {
   }
 
   const previewTemplate = (template: Template) => {
-    setSelectedTemplate(template)
+    // TODO: Implement template preview functionality
+    console.log('Preview template:', template.name)
   }
 
   if (!isOpen) return null

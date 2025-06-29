@@ -48,8 +48,7 @@ export function SpacingControls({
   currentPadding = 'py-20', 
   currentMargin = 'my-0', 
   currentContainer = 'max-w-7xl',
-  onSpacingChange, 
-  onClose 
+  onSpacingChange
 }: SpacingControlsProps) {
   const [selectedPadding, setSelectedPadding] = useState(currentPadding)
   const [selectedMargin, setSelectedMargin] = useState(currentMargin)

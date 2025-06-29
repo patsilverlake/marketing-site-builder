@@ -11,7 +11,7 @@ export interface SectionVariation {
   id: string
   name: string
   description: string
-  component: React.ComponentType<any>
+  component: React.ComponentType<SectionProps>
 }
 
 export interface SectionDefinition {
@@ -25,7 +25,7 @@ export interface SectionInstance {
   id: string
   type: SectionType
   variationId: string
-  content: Record<string, any>
+  content: Record<string, unknown>
   order: number
 }
 
@@ -38,7 +38,7 @@ export interface Page {
 }
 
 export interface SectionProps {
-  content: Record<string, any>
+  content: Record<string, unknown>
   isEditing?: boolean
-  onContentChange?: (content: Record<string, any>) => void
+  onContentChange?: (content: Record<string, unknown>) => void
 }

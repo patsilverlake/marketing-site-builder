@@ -188,7 +188,7 @@ export function generateHTML(sections: SectionInstance[], options: ExportOptions
 function generateAnalyticsCode(analytics: AnalyticsIntegration[]) {
   let head = ''
   let bodyStart = ''
-  let bodyEnd = ''
+  const bodyEnd = ''
 
   analytics.forEach(({ provider, trackingId }) => {
     switch (provider) {
